@@ -1,4 +1,5 @@
 import { ArrowUpRight, CalendarDays, Mail, Phone } from "lucide-react";
+import SocialLinks from "./SocialLinks.jsx";
 
 const contactEmail = "mubshiybm@gmail.com";
 const contactPhone = "09068501939";
@@ -45,6 +46,10 @@ export default function ContactSection() {
               <span><small>CALL US</small><strong>{contactPhone}</strong></span>
               <ArrowUpRight size={16} />
             </a>
+          </div>
+          <div className="contact-social">
+            <h3>Find us online</h3>
+            <SocialLinks />
           </div>
           <p className="contact-response-note">
             The form prepares an email in your mail app. Your booking is confirmed personally by our studio.
