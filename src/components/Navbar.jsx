@@ -7,6 +7,7 @@ const links = [
   ["Our process", "#how-it-works"],
   ["Selected work", "#customers"],
   ["Pricing", "#pricing"],
+  ["Contact", "#contact"],
 ];
 
 export default function Navbar() {
@@ -37,8 +38,8 @@ export default function Navbar() {
       </nav>
       <div className="nav-actions">
         <span className="system-status"><i><Check size={10} /></i> Open for projects</span>
-        <a className="button button-lime nav-cta" href="#pricing">
-          Start a project <ArrowUpRight size={15} />
+        <a className="button button-lime nav-cta" href="#contact">
+          Book a project <ArrowUpRight size={15} />
         </a>
       </div>
     </header>

@@ -8,6 +8,7 @@ import HandoffSection from "./components/HandoffSection.jsx";
 import FeaturesSection from "./components/FeaturesSection.jsx";
 import CustomersSection from "./components/CustomersSection.jsx";
 import PricingSection from "./components/PricingSection.jsx";
+import ContactSection from "./components/ContactSection.jsx";
 import FinalCTA from "./components/FinalCTA.jsx";
 import Footer from "./components/Footer.jsx";
 import { initScrollAnimations } from "./animations/gsapAnimations.js";
@@ -27,6 +28,7 @@ export default function App() {
         <FeaturesSection />
         <CustomersSection />
         <PricingSection />
+        <ContactSection />
         <FinalCTA />
       </main>
       <Footer />
