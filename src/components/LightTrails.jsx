@@ -26,17 +26,17 @@ export default function LightTrails() {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
 
-    const ribbonY = (index, x, drift, amplitude, center) =>
-      center +
-      Math.sin(x * (1.45 + index * 0.13) + drift) * amplitude +
-      Math.sin(x * 3.6 - drift * 0.47) * amplitude * 0.19;
-
     const drawRibbon = (index, time, scrollPhase, scrollProgress, isLight) => {
-      const center = height * (0.12 + index * 0.17);
-      const amplitude = height * (0.085 + index * 0.008);
-      const drift = time * (0.34 + index * 0.045) + scrollPhase + index * 1.2;
-      const y = (x) =>
-        ribbonY(index, x, drift, amplitude, center);
+      const group = Math.floor(index / 12);
+      const strand = index % 12;
+      const spacing = Math.max(2.5, Math.min(height * 0.0045, 4));
+      const center = height * (0.18 + group * 0.32);
+      const drift = time * 0.9 + scrollPhase + group * 1.4;
+      const y = (x) => center +
+        Math.sin(x * 2.4 + drift) * height * 0.065 +
+        Math.sin(x * 4.1 - drift * 0.6 + group) * height * 0.018 +
+        (strand - 5.5) * spacing * (0.55 + x * 1.1) +
+        Math.sin(x * 3 + drift * 0.5 + strand * 0.3) * strand * 0.65;
 
       context.beginPath();
       for (let point = 0; point <= 100; point += 1) {
@@ -50,38 +50,36 @@ export default function LightTrails() {
       const startColor = isLight ? "10, 12, 10" : "184, 240, 46";
       const highlightColor = isLight ? "10, 12, 10" : "208, 255, 66";
       const endColor = isLight ? "10, 12, 10" : "126, 181, 32";
-      gradient.addColorStop(0, `rgba(${startColor}, 0)`);
-      gradient.addColorStop(0.2, `rgba(${startColor}, ${0.25 + index * 0.012})`);
-      gradient.addColorStop(0.48, `rgba(${highlightColor}, ${0.68 - index * 0.035})`);
-      gradient.addColorStop(0.72, `rgba(${endColor}, ${0.34 - index * 0.014})`);
-      gradient.addColorStop(1, `rgba(${startColor}, 0)`);
+      gradient.addColorStop(0, `rgba(${startColor}, 0.18)`);
+      gradient.addColorStop(0.2, `rgba(${startColor}, 0.36)`);
+      gradient.addColorStop(0.48, `rgba(${highlightColor}, 0.65)`);
+      gradient.addColorStop(0.72, `rgba(${endColor}, 0.48)`);
+      gradient.addColorStop(1, `rgba(${startColor}, 0.2)`);
       context.strokeStyle = gradient;
       context.lineCap = "round";
       context.globalCompositeOperation = isLight ? "source-over" : "lighter";
-      context.lineWidth = index === 2 ? 17 : 12;
+      context.lineWidth = 2;
       context.shadowColor = isLight ? "#111510" : "#b8f02e";
-      context.shadowBlur = 44;
-      context.globalAlpha = 0.58;
+      context.shadowBlur = 12;
+      context.globalAlpha = 0.3;
       context.stroke();
       context.globalAlpha = 1;
-      context.lineWidth = index === 2 ? 2.4 : 1.7;
-      context.shadowBlur = 19;
-      context.stroke();
-      context.lineWidth = 0.7;
-      context.shadowBlur = 7;
+      context.lineWidth = strand % 4 === 0 ? 1 : 0.65;
+      context.shadowBlur = 4;
       context.stroke();
       context.shadowBlur = 0;
 
+      if (strand % 4 !== 0) return;
       const lightPosition =
-        (time * (0.12 + index * 0.012) + scrollProgress * 0.00018 + index * 0.21) % 1;
+        (time * (0.28 + group * 0.025) + scrollProgress * 0.00018 + index * 0.21) % 1;
       const lightX = lightPosition * width;
       const lightY = y(lightPosition);
-      const lightRadius = index === 2 ? 2.8 : 1.8;
+      const lightRadius = 1.4;
       context.beginPath();
       context.arc(lightX, lightY, lightRadius, 0, Math.PI * 2);
       context.fillStyle = isLight ? "#101310" : "#efffb0";
       context.shadowColor = isLight ? "#111510" : "#caff46";
-      context.shadowBlur = 26;
+      context.shadowBlur = 12;
       context.fill();
       context.shadowBlur = 0;
     };
@@ -97,7 +95,7 @@ export default function LightTrails() {
       const scrollPhase = scrollProgress * 0.0022;
       const isLight = document.documentElement.dataset.theme === "light";
 
-      for (let index = 0; index < 8; index += 1) {
+      for (let index = 0; index < 36; index += 1) {
         drawRibbon(index, time, scrollPhase, scrollProgress, isLight);
       }
 
