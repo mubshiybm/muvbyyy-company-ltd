@@ -682,3 +682,68 @@ button { color: inherit; }
 :root[data-theme="light"] .floating-run-card small,
 :root[data-theme="light"] .floating-stat-card small { color: #646b5d; }
 :root[data-theme="light"] .floating-stat-card strong i { color: #59614f; }
+
+/* Readable text sizing */
+.eyebrow, .hero-copy .eyebrow, .calculator-copy .eyebrow { font-size: 11px; }
+.hero-copy > p, .section-heading > p, .pricing-heading > p,
+.dashboard-heading > p, .final-cta > p { max-width: 470px; font-size: 16px; line-height: 1.7; }
+.button, .text-button, .nav-links a, .nav-cta { font-size: 13px; }
+.system-status, .hero-proof, .hero-bottom { font-size: 11px; }
+.feature-label, .testimonial-accent, .includes-label, .popular-badge,
+.range-value > span, .estimate > span:first-child, .contact-methods small,
+.footer-column > span, .footer-newsletter > span { font-size: 11px; }
+.feature-panel > p, .feature-link, .plan-description, .plan-card li,
+.calculator-copy > p, .estimate-note, .calculator-foot,
+.footer-brand-column > p, .footer-column a, .footer-newsletter p,
+.footer-newsletter > a { font-size: 14px; line-height: 1.6; }
+.feature-panel > p { min-height: 0; }
+.plan-description { min-height: 0; }
+.plan-price small, .range-value small, .range-markers, .estimate > strong small,
+.testimonial-person b, .testimonial-person small, .customer-metric small,
+.customer-stat-row, .testimonial-controls, .contact-response-note,
+.booking-footnote, .final-footnote, .footer-status, .footer-bottom { font-size: 12px; }
+.plan-button, .booking-submit { font-size: 13px; }
+.booking-fields label, .booking-form-heading small { font-size: 14px; }
+.booking-fields input, .booking-fields select, .booking-fields textarea { font-size: 16px; }
+.estimate { flex-wrap: wrap; }
+.estimate-note { flex-basis: 100%; margin-left: 0; }
+.footer-column a { overflow-wrap: anywhere; }
+.footer-newsletter p { max-width: 230px; }
+.workflow-choice { font-size: 11px; }
+.workflow-choice small, .handoff-step-copy small { font-size: 9px; }
+.handoff-step-copy b { font-size: 11px; }
+.dashboard-date, .dash-welcome p, .activity-heading p, .activity-heading button,
+.activity-row, .activity-name b, .activity-source, .activity-time, .activity-status,
+.activity-empty { font-size: 10px; }
+.activity-heading h4 { font-size: 13px; }
+.activity-row.table-head { font-size: 9px; }
+
+@media (max-width: 1100px) and (min-width: 701px) {
+  .nav-links { gap: 15px; }
+  .system-status { display: none; }
+  .footer-main { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .nav-links a { font-size: 15px; }
+  .nav-cta { font-size: 11px; }
+  .hero-actions .button, .hero-actions .text-button { font-size: 13px; }
+  .hero-copy > p, .section-heading > p, .pricing-heading > p,
+  .dashboard-heading > p, .final-cta > p { font-size: 16px; }
+  .hero-proof { font-size: 11px; }
+  .hero-section { min-height: 0; padding-bottom: 30px; }
+  .hero-bottom { position: relative; inset: auto; gap: 12px; margin-top: 45px; font-size: 10px; }
+  .hero-bottom > span:first-child { max-width: 52%; }
+  .workflow-choice { font-size: 10px; }
+  .workflow-choice small { font-size: 9px; }
+  .dash-welcome p, .activity-heading p, .activity-heading button,
+  .activity-row, .activity-name b, .activity-status { font-size: 10px; }
+  .activity-heading h4 { font-size: 13px; }
+  .plan-card ul { grid-template-columns: 1fr; }
+  .plan-card li { align-items: flex-start; }
+  .plan-card li svg { flex: 0 0 auto; margin-top: 4px; }
+}
+
+@media (max-width: 370px) {
+  .nav-cta { padding: 0 6px; font-size: 10px; }
+}
