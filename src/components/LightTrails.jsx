@@ -31,7 +31,7 @@ export default function LightTrails() {
       Math.sin(x * (1.45 + index * 0.13) + drift) * amplitude +
       Math.sin(x * 3.6 - drift * 0.47) * amplitude * 0.19;
 
-    const drawRibbon = (index, time, scrollPhase, scrollProgress) => {
+    const drawRibbon = (index, time, scrollPhase, scrollProgress, isLight) => {
       const center = height * (0.12 + index * 0.17);
       const amplitude = height * (0.085 + index * 0.008);
       const drift = time * (0.34 + index * 0.045) + scrollPhase + index * 1.2;
@@ -47,16 +47,19 @@ export default function LightTrails() {
       }
 
       const gradient = context.createLinearGradient(0, 0, width, height * 0.72);
-      gradient.addColorStop(0, "rgba(184, 240, 46, 0)");
-      gradient.addColorStop(0.2, `rgba(184, 240, 46, ${0.25 + index * 0.012})`);
-      gradient.addColorStop(0.48, `rgba(208, 255, 66, ${0.68 - index * 0.035})`);
-      gradient.addColorStop(0.72, `rgba(126, 181, 32, ${0.34 - index * 0.014})`);
-      gradient.addColorStop(1, "rgba(184, 240, 46, 0)");
+      const startColor = isLight ? "10, 12, 10" : "184, 240, 46";
+      const highlightColor = isLight ? "10, 12, 10" : "208, 255, 66";
+      const endColor = isLight ? "10, 12, 10" : "126, 181, 32";
+      gradient.addColorStop(0, `rgba(${startColor}, 0)`);
+      gradient.addColorStop(0.2, `rgba(${startColor}, ${0.25 + index * 0.012})`);
+      gradient.addColorStop(0.48, `rgba(${highlightColor}, ${0.68 - index * 0.035})`);
+      gradient.addColorStop(0.72, `rgba(${endColor}, ${0.34 - index * 0.014})`);
+      gradient.addColorStop(1, `rgba(${startColor}, 0)`);
       context.strokeStyle = gradient;
       context.lineCap = "round";
-      context.globalCompositeOperation = "lighter";
+      context.globalCompositeOperation = isLight ? "source-over" : "lighter";
       context.lineWidth = index === 2 ? 17 : 12;
-      context.shadowColor = "#b8f02e";
+      context.shadowColor = isLight ? "#111510" : "#b8f02e";
       context.shadowBlur = 44;
       context.globalAlpha = 0.58;
       context.stroke();
@@ -76,8 +79,8 @@ export default function LightTrails() {
       const lightRadius = index === 2 ? 2.8 : 1.8;
       context.beginPath();
       context.arc(lightX, lightY, lightRadius, 0, Math.PI * 2);
-      context.fillStyle = "#efffb0";
-      context.shadowColor = "#caff46";
+      context.fillStyle = isLight ? "#101310" : "#efffb0";
+      context.shadowColor = isLight ? "#111510" : "#caff46";
       context.shadowBlur = 26;
       context.fill();
       context.shadowBlur = 0;
@@ -92,9 +95,10 @@ export default function LightTrails() {
       const scrollProgress = window.scrollY;
       const time = mediaQuery.matches ? 0 : elapsed;
       const scrollPhase = scrollProgress * 0.0022;
+      const isLight = document.documentElement.dataset.theme === "light";
 
       for (let index = 0; index < 8; index += 1) {
-        drawRibbon(index, time, scrollPhase, scrollProgress);
+        drawRibbon(index, time, scrollPhase, scrollProgress, isLight);
       }
 
       for (let index = 0; index < 34; index += 1) {
@@ -107,9 +111,9 @@ export default function LightTrails() {
         const opacity = 0.14 + (Math.sin(time * 2 + index) + 1) * 0.15;
         context.beginPath();
         context.arc(x, y, index % 5 === 0 ? 1.5 : 0.8, 0, Math.PI * 2);
-        context.fillStyle = `rgba(211,255,94,${opacity})`;
+        context.fillStyle = isLight ? `rgba(10,12,10,${opacity})` : `rgba(211,255,94,${opacity})`;
         context.shadowBlur = 8;
-        context.shadowColor = "#b8f02e";
+        context.shadowColor = isLight ? "#111510" : "#b8f02e";
         context.fill();
       }
 
@@ -136,9 +140,11 @@ export default function LightTrails() {
     const handleScroll = () => {
       if (mediaQuery.matches) scheduleDraw();
     };
+    const themeObserver = new MutationObserver(scheduleDraw);
 
     resize();
     scheduleDraw();
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
     mediaQuery.addEventListener("change", handleMotionChange);
@@ -148,6 +154,7 @@ export default function LightTrails() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
       mediaQuery.removeEventListener("change", handleMotionChange);
+      themeObserver.disconnect();
     };
   }, []);
 

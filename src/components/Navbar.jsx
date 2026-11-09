@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { ArrowUpRight, Check, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Check, Menu, Moon, Sun, X } from "lucide-react";
 import RelayMark from "./RelayMark.jsx";
+
+const themeStorageKey = "muvbyyy-theme";
 
 const links = [
   ["Services", "#product"],
@@ -12,8 +14,20 @@ const links = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(() => (
+    window.localStorage.getItem(themeStorageKey) === "dark" ? "dark" : "light"
+  ));
 
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      "content",
+      theme === "light" ? "#f7f8f2" : "#050605",
+    );
+    window.localStorage.setItem(themeStorageKey, theme);
+  }, [theme]);
 
   return (
     <header className="navbar">
@@ -38,6 +52,16 @@ export default function Navbar() {
       </nav>
       <div className="nav-actions">
         <span className="system-status"><i><Check size={10} /></i> Open for projects</span>
+        <button
+          className="theme-toggle"
+          type="button"
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+          aria-pressed={theme === "light"}
+          title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+          onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")}
+        >
+          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
         <a className="button button-lime nav-cta" href="#contact">
           Book a project <ArrowUpRight size={15} />
         </a>

@@ -1,6 +1,8 @@
 # Muvbyyy Coding Studio
 
-A responsive website for Muvbyyy Coding Studio, built with React, Vite, Tailwind CSS, and GSAP. Its lime light trails, project previews, navigation, and page-count estimate are interactive.
+A responsive website for Muvbyyy Coding Studio, built with React, Vite, Tailwind CSS, and GSAP. Its animated background trails, project previews, navigation, and page-count estimate are interactive. The trails are black in light mode and lime in dark mode.
+
+The site starts in a coordinated light theme and includes a persistent light/dark theme switch.
 
 ## Run locally
 
