@@ -14,8 +14,8 @@ export default function Hero() {
             from the first sketch to the final, responsive detail.
           </p>
           <div className="hero-actions">
-            <a className="button button-lime" href="#pricing">Start a project <ArrowUpRight size={16} /></a>
-            <a className="text-button" href="#customers"><CirclePlay size={18} /> Explore our work</a>
+            <a className="button button-lime" href="/pricing">Start a project <ArrowUpRight size={16} /></a>
+            <a className="text-button" href="/work"><CirclePlay size={18} /> Explore our work</a>
           </div>
           <div className="hero-proof"><span className="proof-avatars"><i>U</i><i>I</i><i>✳</i><i>+</i></span><span>Thoughtful design. Clean code. Built for your next step.</span></div>
         </div>

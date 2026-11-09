@@ -8,14 +8,17 @@ export function initScrollAnimations() {
   if (mediaQuery.matches) return undefined;
 
   const context = gsap.context(() => {
-    gsap.from(".hero-copy > *", {
-      opacity: 0,
-      y: 22,
-      duration: 0.8,
-      stagger: 0.09,
-      ease: "power3.out",
-      delay: 0.15,
-    });
+    const heroContent = gsap.utils.toArray(".hero-copy > *");
+    if (heroContent.length) {
+      gsap.from(heroContent, {
+        opacity: 0,
+        y: 22,
+        duration: 0.8,
+        stagger: 0.09,
+        ease: "power3.out",
+        delay: 0.15,
+      });
+    }
 
     gsap.utils.toArray(".section-heading, .reveal-up").forEach((element) => {
       gsap.from(element, {

@@ -72,7 +72,7 @@ export default function FeaturesSection() {
             <h3>{feature.title}</h3>
             <p>{feature.body}</p>
             <FeaturePreview type={feature.className} />
-            <a className="feature-link" href="#pricing">Explore this service <ArrowDownRight size={14} /></a>
+            <a className="feature-link" href="/pricing">Explore this service <ArrowDownRight size={14} /></a>
           </article>
         ))}
       </div>

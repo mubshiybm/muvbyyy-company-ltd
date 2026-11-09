@@ -4,6 +4,8 @@ A responsive website for Muvbyyy Coding Studio, built with React, Vite, Tailwind
 
 The site starts in a coordinated light theme and includes a persistent light/dark theme switch.
 
+The full landing page remains at `/`. Separate pages are available at `/services`, `/process`, `/work`, `/pricing`, and `/contact`. They share the site's navigation, animated background, theme, and footer.
+
 ## Run locally
 
 ```sh

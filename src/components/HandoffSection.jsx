@@ -42,7 +42,7 @@ export default function HandoffSection() {
               <div className="log-head"><span>PROJECT CHECKLIST</span><span>Today <ArrowDown size={11} /></span></div>
               <div className="log-total"><strong>04</strong><span>steps from idea to launch</span></div>
               {handoffs.slice(1).map(([, title, detail]) => <div className="log-line" key={title}><span><Check size={10} /></span><b>{title}</b><small>{detail.split("·")[1]}</small></div>)}
-              <a href="#pricing">Explore our services <ArrowRight size={12} /></a>
+              <a href="/services">Explore our services <ArrowRight size={12} /></a>
             </div>
           </div>
           <div className="handoff-footer"><span><Zap size={12} /> Design meets development</span><span>Made to fit your goals</span><span><Sparkles size={12} /> Built by Muvbyyy Studio</span></div>

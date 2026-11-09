@@ -33,14 +33,14 @@ export default function DashboardSection() {
         <div className="app-sidebar">
           <div className="app-side-brand"><span className="side-logo"><Zap size={14} fill="currentColor" /></span> Muvbyyy <span className="workspace-switch">Studio projects <ChevronDown size={11} /></span></div>
           <div className="side-nav-label">STUDIO</div>
-          <a className="side-nav-item selected" href="#how-it-works"><span>◫</span> Overview</a>
-          <a className="side-nav-item" href="#product"><span>⌘</span> Services <b>04</b></a>
-          <a className="side-nav-item" href="#customers"><span>◷</span> Portfolio</a>
-          <a className="side-nav-item" href="#features"><span>▤</span> Capabilities</a>
-          <div className="side-nav-label side-space">PROJECTS <a href="#product" aria-label="Explore services">+</a></div>
-          <a className="side-flow" href="#product"><i className="flow-dot dot-purple" /> Brand website</a>
-          <a className="side-flow" href="#product"><i className="flow-dot dot-orange" /> Studio landing page</a>
-          <a className="side-flow" href="#product"><i className="flow-dot dot-blue" /> Online storefront</a>
+          <a className="side-nav-item selected" href="/process#how-it-works"><span>◫</span> Overview</a>
+          <a className="side-nav-item" href="/services"><span>⌘</span> Services <b>04</b></a>
+          <a className="side-nav-item" href="/work"><span>◷</span> Portfolio</a>
+          <a className="side-nav-item" href="/services#features"><span>▤</span> Capabilities</a>
+          <div className="side-nav-label side-space">PROJECTS <a href="/services" aria-label="Explore services">+</a></div>
+          <a className="side-flow" href="/services"><i className="flow-dot dot-purple" /> Brand website</a>
+          <a className="side-flow" href="/services"><i className="flow-dot dot-orange" /> Studio landing page</a>
+          <a className="side-flow" href="/services"><i className="flow-dot dot-blue" /> Online storefront</a>
           <div className="side-profile"><span className="profile-avatar">M</span><span>Muvbyyy Studio<small>Design & development</small></span><MoreHorizontal size={14} /></div>
         </div>
         <div className="dashboard-main">

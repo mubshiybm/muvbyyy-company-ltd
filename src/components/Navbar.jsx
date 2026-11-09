@@ -5,11 +5,11 @@ import RelayMark from "./RelayMark.jsx";
 const themeStorageKey = "muvbyyy-theme";
 
 const links = [
-  ["Services", "#product"],
-  ["Our process", "#how-it-works"],
-  ["Selected work", "#customers"],
-  ["Pricing", "#pricing"],
-  ["Contact", "#contact"],
+  ["Services", "/services"],
+  ["Our process", "/process"],
+  ["Selected work", "/work"],
+  ["Pricing", "/pricing"],
+  ["Contact", "/contact"],
 ];
 
 export default function Navbar() {
@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <header className="navbar">
-      <a className="wordmark" href="#home" aria-label="Muvbyyy Coding Studio home" onClick={closeMenu}>
+      <a className="wordmark" href="/" aria-label="Muvbyyy Coding Studio home" onClick={closeMenu}>
         <RelayMark className="relay-mark" />
         <span>muvbyyy</span>
       </a>
@@ -47,7 +47,7 @@ export default function Navbar() {
       </button>
       <nav className={`nav-links${menuOpen ? " is-open" : ""}`} id="primary-nav">
         {links.map(([label, target]) => (
-          <a href={target} key={label} onClick={closeMenu}>{label}</a>
+          <a href={target} key={label} aria-current={window.location.pathname.replace(/\/+$/, "") === target ? "page" : undefined} onClick={closeMenu}>{label}</a>
         ))}
       </nav>
       <div className="nav-actions">
@@ -62,7 +62,7 @@ export default function Navbar() {
         >
           {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
         </button>
-        <a className="button button-lime nav-cta" href="#contact">
+        <a className="button button-lime nav-cta" href="/contact">
           Book a project <ArrowUpRight size={15} />
         </a>
       </div>

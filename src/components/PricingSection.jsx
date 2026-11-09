@@ -21,7 +21,7 @@ export default function PricingSection() {
             {plan.featured && <span className="popular-badge"><i /> MOST POPULAR</span>}
             <span className="plan-name">{plan.name}</span><p className="plan-description">{plan.description}</p>
             <div className="plan-price">{plan.price}<small>{plan.detail}</small></div>
-            <a className={`button plan-button${plan.featured ? " button-lime" : ""}`} href="#contact">{plan.action}<ArrowUpRight size={15} /></a>
+            <a className={`button plan-button${plan.featured ? " button-lime" : ""}`} href="/contact">{plan.action}<ArrowUpRight size={15} /></a>
             <div className="plan-divider" /><span className="includes-label">A TYPICAL STARTING SCOPE</span>
             <ul>{plan.features.map((feature) => <li key={feature}><Check size={13} /> {feature}</li>)}</ul>
           </article>
