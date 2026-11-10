@@ -1,17 +1,19 @@
-import { useEffect } from "react";
+import { Component, lazy, Suspense, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import LightTrails from "./components/LightTrails.jsx";
-import Hero from "./components/Hero.jsx";
-import WorkflowSection from "./components/WorkflowSection.jsx";
-import DashboardSection from "./components/DashboardSection.jsx";
-import HandoffSection from "./components/HandoffSection.jsx";
-import FeaturesSection from "./components/FeaturesSection.jsx";
-import CustomersSection from "./components/CustomersSection.jsx";
-import PricingSection from "./components/PricingSection.jsx";
-import ContactSection from "./components/ContactSection.jsx";
 import FinalCTA from "./components/FinalCTA.jsx";
 import Footer from "./components/Footer.jsx";
 import { initScrollAnimations } from "./animations/gsapAnimations.js";
+
+const Hero = lazy(() => import("./components/Hero.jsx"));
+const WorkflowSection = lazy(() => import("./components/WorkflowSection.jsx"));
+const DashboardSection = lazy(() => import("./components/DashboardSection.jsx"));
+const HandoffSection = lazy(() => import("./components/HandoffSection.jsx"));
+const FeaturesSection = lazy(() => import("./components/FeaturesSection.jsx"));
+const CustomersSection = lazy(() => import("./components/CustomersSection.jsx"));
+const PricingSection = lazy(() => import("./components/PricingSection.jsx"));
+const ContactSection = lazy(() => import("./components/ContactSection.jsx"));
 
 const pages = {
   "/services": {
@@ -65,12 +67,44 @@ const notFoundPage = {
   sections: [],
 };
 
-export default function App() {
-  const path = window.location.pathname.replace(/\/+$/, "") || "/";
-  const page = path === "/" ? null : pages[path] || notFoundPage;
+function PageLoader() {
+  return (
+    <div className="page-loader" role="status" aria-label="Loading page">
+      <span /><span /><span />
+      <span className="loader-label">Loading page</span>
+    </div>
+  );
+}
 
-  useEffect(() => initScrollAnimations(), []);
+class PageErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
+  }
 
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Unable to load the page:", error, info);
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="page-error" role="alert">
+          <h1>We couldn’t load this page.</h1>
+          <p>Please reload to try again.</p>
+          <button className="button button-lime" onClick={() => window.location.reload()}>Reload page</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function PageContent({ page, location }) {
   useEffect(() => {
     document.title = page
       ? `${page.title} — Muvbyyy Coding Studio`
@@ -78,18 +112,22 @@ export default function App() {
   }, [page]);
 
   useEffect(() => {
-    if (!window.location.hash) return undefined;
     const frame = requestAnimationFrame(() => {
-      document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+      if (location.hash) {
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView();
+        else if (location.hash === "#top") window.scrollTo({ top: 0, behavior: "instant" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
     });
     return () => cancelAnimationFrame(frame);
-  }, []);
+  }, [location.key, location.hash]);
+
+  useEffect(() => initScrollAnimations(), [page]);
 
   return (
     <>
-      <LightTrails />
-      <Navbar />
-      <main>
         {page ? (
           <>
             <section className="page-intro section-pad">
@@ -98,10 +136,10 @@ export default function App() {
                 <span className="eyebrow"><i /> {page.eyebrow}</span>
                 <h1>{page.heading}<br /><em>{page.emphasis}</em></h1>
                 <p>{page.description}</p>
-                {page === notFoundPage && <a className="button button-lime" href="/">Back to homepage</a>}
+                {page === notFoundPage && <Link className="button button-lime" to="/">Back to homepage</Link>}
               </div>
             </section>
-            {page.sections.map((Section) => <Section key={Section.name} />)}
+            {page.sections.map((Section, index) => <Section key={index} />)}
           </>
         ) : (
           <>
@@ -116,6 +154,25 @@ export default function App() {
           </>
         )}
         <FinalCTA />
+    </>
+  );
+}
+
+export default function App() {
+  const location = useLocation();
+  const path = location.pathname.replace(/\/+$/, "") || "/";
+  const page = path === "/" ? null : pages[path] || notFoundPage;
+
+  return (
+    <>
+      <LightTrails />
+      <Navbar />
+      <main>
+        <PageErrorBoundary key={path}>
+          <Suspense fallback={<PageLoader />}>
+            <PageContent page={page} location={location} />
+          </Suspense>
+        </PageErrorBoundary>
       </main>
       <Footer />
     </>

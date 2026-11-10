@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, MoveUpRight } from "lucide-react";
 
 const customers = [
@@ -63,7 +64,7 @@ export default function CustomersSection() {
         </AnimatePresence>
         <div className="testimonial-controls"><span>{String(active + 1).padStart(2, "0")} <i>/</i> {String(customers.length).padStart(2, "0")}</span><div><button aria-label="Previous testimonial" onClick={() => change(-1)}><ArrowLeft size={15} /></button><button aria-label="Next testimonial" onClick={() => change(1)}><ArrowRight size={15} /></button></div></div>
       </div>
-      <div className="customer-stat-row"><span><strong>01</strong> one studio from design to code</span><span><strong>∞</strong> thoughtful details on every screen</span><a href="/contact">Tell us what you have in mind <ArrowUpRight size={14} /></a></div>
+      <div className="customer-stat-row"><span><strong>01</strong> one studio from design to code</span><span><strong>∞</strong> thoughtful details on every screen</span><Link to="/contact">Tell us what you have in mind <ArrowUpRight size={14} /></Link></div>
     </section>
   );
 }

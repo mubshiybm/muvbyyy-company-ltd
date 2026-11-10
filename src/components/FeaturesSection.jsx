@@ -1,4 +1,5 @@
 import { ArrowDownRight, ArrowRight, ArrowUpRight, BrainCircuit, Command, Layers3, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -72,7 +73,7 @@ export default function FeaturesSection() {
             <h3>{feature.title}</h3>
             <p>{feature.body}</p>
             <FeaturePreview type={feature.className} />
-            <a className="feature-link" href="/pricing">Explore this service <ArrowDownRight size={14} /></a>
+            <Link className="feature-link" to="/pricing">Explore this service <ArrowDownRight size={14} /></Link>
           </article>
         ))}
       </div>

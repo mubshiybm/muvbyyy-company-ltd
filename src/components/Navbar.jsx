@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Check, Menu, Moon, Sun, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import RelayMark from "./RelayMark.jsx";
 
 const themeStorageKey = "muvbyyy-theme";
@@ -13,10 +14,9 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(() => (
-    window.localStorage.getItem(themeStorageKey) === "dark" ? "dark" : "light"
-  ));
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme === "dark" ? "dark" : "light");
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -26,15 +26,19 @@ export default function Navbar() {
       "content",
       theme === "light" ? "#f7f8f2" : "#050605",
     );
-    window.localStorage.setItem(themeStorageKey, theme);
+    try {
+      window.localStorage.setItem(themeStorageKey, theme);
+    } catch (error) {
+      console.warn("Could not save the selected theme:", error);
+    }
   }, [theme]);
 
   return (
     <header className="navbar">
-      <a className="wordmark" href="/" aria-label="Muvbyyy Coding Studio home" onClick={closeMenu}>
+      <Link className="wordmark" to="/" aria-label="Muvbyyy Coding Studio home" onClick={closeMenu}>
         <RelayMark className="relay-mark" />
         <span>muvbyyy</span>
-      </a>
+      </Link>
       <button
         className="nav-toggle"
         type="button"
@@ -47,7 +51,7 @@ export default function Navbar() {
       </button>
       <nav className={`nav-links${menuOpen ? " is-open" : ""}`} id="primary-nav">
         {links.map(([label, target]) => (
-          <a href={target} key={label} aria-current={window.location.pathname.replace(/\/+$/, "") === target ? "page" : undefined} onClick={closeMenu}>{label}</a>
+          <Link to={target} key={label} aria-current={pathname.replace(/\/+$/, "") === target ? "page" : undefined} onClick={closeMenu}>{label}</Link>
         ))}
       </nav>
       <div className="nav-actions">
@@ -62,9 +66,9 @@ export default function Navbar() {
         >
           {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
         </button>
-        <a className="button button-lime nav-cta" href="/contact">
+        <Link className="button button-lime nav-cta" to="/contact" onClick={closeMenu}>
           Book a project <ArrowUpRight size={15} />
-        </a>
+        </Link>
       </div>
     </header>
   );

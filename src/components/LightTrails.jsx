@@ -14,6 +14,7 @@ export default function LightTrails() {
     let height = 0;
     let elapsed = 0;
     let lastTimestamp = 0;
+    let lastDraw = 0;
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -26,7 +27,7 @@ export default function LightTrails() {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
     };
 
-    const drawRibbon = (index, time, scrollPhase, scrollProgress, isLight) => {
+    const drawRibbon = (index, time, scrollPhase, scrollProgress, isLight, gradient) => {
       const group = Math.floor(index / 12);
       const strand = index % 12;
       const spacing = Math.max(2.5, Math.min(height * 0.0045, 4));
@@ -39,22 +40,13 @@ export default function LightTrails() {
         Math.sin(x * 3 + drift * 0.5 + strand * 0.3) * strand * 0.65;
 
       context.beginPath();
-      for (let point = 0; point <= 100; point += 1) {
-        const x = (point / 100) * width;
+      for (let point = 0; point <= 60; point += 1) {
+        const x = (point / 60) * width;
         const pointY = y(x / width);
         if (point === 0) context.moveTo(x, pointY);
         else context.lineTo(x, pointY);
       }
 
-      const gradient = context.createLinearGradient(0, 0, width, height * 0.72);
-      const startColor = isLight ? "10, 12, 10" : "184, 240, 46";
-      const highlightColor = isLight ? "10, 12, 10" : "208, 255, 66";
-      const endColor = isLight ? "10, 12, 10" : "126, 181, 32";
-      gradient.addColorStop(0, `rgba(${startColor}, 0.18)`);
-      gradient.addColorStop(0.2, `rgba(${startColor}, 0.36)`);
-      gradient.addColorStop(0.48, `rgba(${highlightColor}, 0.65)`);
-      gradient.addColorStop(0.72, `rgba(${endColor}, 0.48)`);
-      gradient.addColorStop(1, `rgba(${startColor}, 0.2)`);
       context.strokeStyle = gradient;
       context.lineCap = "round";
       context.globalCompositeOperation = isLight ? "source-over" : "lighter";
@@ -85,18 +77,34 @@ export default function LightTrails() {
     };
 
     const draw = (timestamp) => {
+      frameId = null;
+      if (document.hidden) return;
+      if (!mediaQuery.matches && lastDraw && timestamp - lastDraw < 1000 / 30) {
+        frameId = requestAnimationFrame(draw);
+        return;
+      }
       if (lastTimestamp > 0 && !mediaQuery.matches) {
-        elapsed += Math.min((timestamp - lastTimestamp) / 1000, 0.05);
+        elapsed += Math.min((timestamp - lastTimestamp) / 1000, 0.1);
       }
       lastTimestamp = timestamp;
+      lastDraw = timestamp;
       context.clearRect(0, 0, width, height);
       const scrollProgress = window.scrollY;
       const time = mediaQuery.matches ? 0 : elapsed;
       const scrollPhase = scrollProgress * 0.0022;
       const isLight = document.documentElement.dataset.theme === "light";
+      const gradient = context.createLinearGradient(0, 0, width, height * 0.72);
+      const startColor = isLight ? "10, 12, 10" : "184, 240, 46";
+      const highlightColor = isLight ? "10, 12, 10" : "208, 255, 66";
+      const endColor = isLight ? "10, 12, 10" : "126, 181, 32";
+      gradient.addColorStop(0, `rgba(${startColor}, 0.18)`);
+      gradient.addColorStop(0.2, `rgba(${startColor}, 0.36)`);
+      gradient.addColorStop(0.48, `rgba(${highlightColor}, 0.65)`);
+      gradient.addColorStop(0.72, `rgba(${endColor}, 0.48)`);
+      gradient.addColorStop(1, `rgba(${startColor}, 0.2)`);
 
       for (let index = 0; index < 36; index += 1) {
-        drawRibbon(index, time, scrollPhase, scrollProgress, isLight);
+        drawRibbon(index, time, scrollPhase, scrollProgress, isLight, gradient);
       }
 
       for (let index = 0; index < 34; index += 1) {
@@ -129,6 +137,7 @@ export default function LightTrails() {
       cancelAnimationFrame(frameId);
       frameId = null;
       lastTimestamp = 0;
+      lastDraw = 0;
       scheduleDraw();
     };
     const handleResize = () => {
@@ -138,6 +147,16 @@ export default function LightTrails() {
     const handleScroll = () => {
       if (mediaQuery.matches) scheduleDraw();
     };
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      } else {
+        lastTimestamp = 0;
+        lastDraw = 0;
+        scheduleDraw();
+      }
+    };
     const themeObserver = new MutationObserver(scheduleDraw);
 
     resize();
@@ -145,12 +164,14 @@ export default function LightTrails() {
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibility);
     mediaQuery.addEventListener("change", handleMotionChange);
 
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibility);
       mediaQuery.removeEventListener("change", handleMotionChange);
       themeObserver.disconnect();
     };

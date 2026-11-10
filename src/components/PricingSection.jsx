@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, Check, Minus, Plus } from "lucide-react";
 
 const plans = [
@@ -21,7 +22,7 @@ export default function PricingSection() {
             {plan.featured && <span className="popular-badge"><i /> MOST POPULAR</span>}
             <span className="plan-name">{plan.name}</span><p className="plan-description">{plan.description}</p>
             <div className="plan-price">{plan.price}<small>{plan.detail}</small></div>
-            <a className={`button plan-button${plan.featured ? " button-lime" : ""}`} href="/contact">{plan.action}<ArrowUpRight size={15} /></a>
+            <Link className={`button plan-button${plan.featured ? " button-lime" : ""}`} to="/contact">{plan.action}<ArrowUpRight size={15} /></Link>
             <div className="plan-divider" /><span className="includes-label">A TYPICAL STARTING SCOPE</span>
             <ul>{plan.features.map((feature) => <li key={feature}><Check size={13} /> {feature}</li>)}</ul>
           </article>

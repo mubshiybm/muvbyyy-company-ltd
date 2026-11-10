@@ -1,4 +1,5 @@
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, CirclePlay, MoreHorizontal } from "lucide-react";
+import { Link } from "react-router-dom";
 import RelayMark from "./RelayMark.jsx";
 
 export default function Hero() {
@@ -14,8 +15,8 @@ export default function Hero() {
             from the first sketch to the final, responsive detail.
           </p>
           <div className="hero-actions">
-            <a className="button button-lime" href="/pricing">Start a project <ArrowUpRight size={16} /></a>
-            <a className="text-button" href="/work"><CirclePlay size={18} /> Explore our work</a>
+            <Link className="button button-lime" to="/pricing">Start a project <ArrowUpRight size={16} /></Link>
+            <Link className="text-button" to="/work"><CirclePlay size={18} /> Explore our work</Link>
           </div>
           <div className="hero-proof"><span className="proof-avatars"><i>U</i><i>I</i><i>✳</i><i>+</i></span><span>Thoughtful design. Clean code. Built for your next step.</span></div>
         </div>

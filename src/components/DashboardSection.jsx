@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, Check, ChevronDown, Clock3, MoreHorizontal, Play, Search, SlidersHorizontal, Zap } from "lucide-react";
 
 const activity = [
@@ -33,14 +34,14 @@ export default function DashboardSection() {
         <div className="app-sidebar">
           <div className="app-side-brand"><span className="side-logo"><Zap size={14} fill="currentColor" /></span> Muvbyyy <span className="workspace-switch">Studio projects <ChevronDown size={11} /></span></div>
           <div className="side-nav-label">STUDIO</div>
-          <a className="side-nav-item selected" href="/process#how-it-works"><span>◫</span> Overview</a>
-          <a className="side-nav-item" href="/services"><span>⌘</span> Services <b>04</b></a>
-          <a className="side-nav-item" href="/work"><span>◷</span> Portfolio</a>
-          <a className="side-nav-item" href="/services#features"><span>▤</span> Capabilities</a>
-          <div className="side-nav-label side-space">PROJECTS <a href="/services" aria-label="Explore services">+</a></div>
-          <a className="side-flow" href="/services"><i className="flow-dot dot-purple" /> Brand website</a>
-          <a className="side-flow" href="/services"><i className="flow-dot dot-orange" /> Studio landing page</a>
-          <a className="side-flow" href="/services"><i className="flow-dot dot-blue" /> Online storefront</a>
+          <Link className="side-nav-item selected" to="/process#how-it-works"><span>◫</span> Overview</Link>
+          <Link className="side-nav-item" to="/services"><span>⌘</span> Services <b>04</b></Link>
+          <Link className="side-nav-item" to="/work"><span>◷</span> Portfolio</Link>
+          <Link className="side-nav-item" to="/services#features"><span>▤</span> Capabilities</Link>
+          <div className="side-nav-label side-space">PROJECTS <Link to="/services" aria-label="Explore services">+</Link></div>
+          <Link className="side-flow" to="/services"><i className="flow-dot dot-purple" /> Brand website</Link>
+          <Link className="side-flow" to="/services"><i className="flow-dot dot-orange" /> Studio landing page</Link>
+          <Link className="side-flow" to="/services"><i className="flow-dot dot-blue" /> Online storefront</Link>
           <div className="side-profile"><span className="profile-avatar">M</span><span>Muvbyyy Studio<small>Design & development</small></span><MoreHorizontal size={14} /></div>
         </div>
         <div className="dashboard-main">

@@ -1,4 +1,5 @@
 import { ArrowUpRight, CirclePlay, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import RelayMark from "./RelayMark.jsx";
 
 export default function FinalCTA() {
@@ -10,7 +11,7 @@ export default function FinalCTA() {
       <span className="eyebrow"><i /> YOUR NEXT IDEA STARTS HERE</span>
       <h2>Let’s make<br /><em>something matter.</em></h2>
       <p>Tell us what you’re dreaming up. We’ll help you bring it to the web.</p>
-      <div className="final-actions"><a className="button button-lime" href="/contact">Book a project <ArrowUpRight size={16} /></a><a className="text-button" href="/work"><CirclePlay size={17} /> See concept work</a></div>
+      <div className="final-actions"><Link className="button button-lime" to="/contact">Book a project <ArrowUpRight size={16} /></Link><Link className="text-button" to="/work"><CirclePlay size={17} /> See concept work</Link></div>
       <span className="final-footnote">WEB DESIGN · UI/UX · DEVELOPMENT · YOUR NEXT BIG IDEA</span>
     </section>
   );

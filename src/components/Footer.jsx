@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import RelayMark from "./RelayMark.jsx";
 import SocialLinks from "./SocialLinks.jsx";
 
@@ -12,9 +13,9 @@ export default function Footer() {
   return (
     <footer className="site-footer" id="footer">
       <div className="footer-main">
-        <div className="footer-brand-column"><a className="wordmark" href="/" aria-label="Muvbyyy Coding Studio home"><RelayMark className="relay-mark" /><span>muvbyyy</span></a><p>Muvbyyy Coding Studio<br />Websites, thoughtfully made.</p><a className="footer-status" href="/contact"><i /> Open for projects <ArrowUpRight size={12} /></a></div>
-        {footerLinks.map((column) => <div className="footer-column" key={column.heading}><span>{column.heading}</span>{column.links.map(([label, href]) => <a href={href} key={label}>{label}</a>)}</div>)}
-        <div className="footer-newsletter"><span>HAVE A GOOD IDEA?</span><p>Let’s turn it into a thoughtful, hard-working website.</p><a href="/contact">Tell us about it <ArrowUpRight size={13} /></a></div>
+        <div className="footer-brand-column"><Link className="wordmark" to="/" aria-label="Muvbyyy Coding Studio home"><RelayMark className="relay-mark" /><span>muvbyyy</span></Link><p>Muvbyyy Coding Studio<br />Websites, thoughtfully made.</p><Link className="footer-status" to="/contact"><i /> Open for projects <ArrowUpRight size={12} /></Link></div>
+        {footerLinks.map((column) => <div className="footer-column" key={column.heading}><span>{column.heading}</span>{column.links.map(([label, href]) => href.startsWith("/") || href.startsWith("#") ? <Link to={href} key={label}>{label}</Link> : <a href={href} key={label}>{label}</a>)}</div>)}
+        <div className="footer-newsletter"><span>HAVE A GOOD IDEA?</span><p>Let’s turn it into a thoughtful, hard-working website.</p><Link to="/contact">Tell us about it <ArrowUpRight size={13} /></Link></div>
       </div>
       <div className="footer-social">
         <span>FOLLOW & CHAT</span>
